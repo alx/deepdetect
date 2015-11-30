@@ -1,0 +1,19 @@
+{
+  "name": "youtube-dd",
+  "version": "1.0.0",
+  "description": "Pipeline to fetch a youtube video, then split it in thumbnails, then send it to deep-detect, and generate a json containing deep-detech image classifier results with corresponding thumbnail.",
+  "main": "youtube-dd.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fluent-ffmpeg": "^2.0.1",
+    "moment": "^2.10.6",
+    "node-parse-url": "^1.0.0",
+    "url-parse": "^1.0.5",
+    "yargs": "^3.30.0",
+    "youtube-dl": "^1.10.5"
+  }
+}
