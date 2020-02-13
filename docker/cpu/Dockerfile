@@ -32,7 +32,7 @@ RUN apt-get update && \
     apt-get install -y wget libopenblas-base liblmdb0 libleveldb1v5 libboost-regex1.58.0 libgoogle-glog0v5 libopencv-highgui2.4v5 libcppnetlib0 libgflags2v5 libcurl3 libhdf5-cpp-11 libboost-filesystem1.58.0 libboost-thread1.58.0 libboost-iostreams1.58.0 libarchive13 libprotobuf9v5 && \
     rm -rf /var/lib/apt/lists/*
 
-# permissions
+# Fix permissions
 RUN ln -sf /dev/stdout /var/log/deepdetect.log && \
     ln -sf /dev/stderr /var/log/deepdetect.log
 
@@ -40,10 +40,10 @@ RUN useradd -ms /bin/bash dd && \
     chown dd:dd /opt
 USER dd
 
-# external volume to be mapped, e.g. for models or training data
+# External volume to be mapped, e.g. for models or training data
 RUN mkdir /opt/models
 
-# include a few image models within the image
+# Include a few image models within the image
 WORKDIR /opt/models
 RUN mkdir ggnet && cd ggnet && \
     wget https://www.deepdetect.com/models/ggnet/bvlc_googlenet.caffemodel
@@ -65,5 +65,6 @@ COPY --from=build /opt/deepdetect/build/faiss/src/faiss/libfaiss.so /usr/lib/
 WORKDIR /opt/deepdetect/build/main
 VOLUME ["/data"]
 
+# Set entrypoint
 CMD ./dede -host 0.0.0.0
 EXPOSE 8080
