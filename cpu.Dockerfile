@@ -1,5 +1,8 @@
 FROM ubuntu:16.04 AS build
 
+ARG DEEPDETECT_ARCH=cpu
+ARG DEEPDETECT_BUILD=default
+
 # Install build dependencies
 RUN apt-get update && \ 
     apt-get install -y git cmake build-essential libgoogle-glog-dev libgflags-dev libeigen3-dev libopencv-dev libcppnetlib-dev libboost-dev libboost-iostreams-dev libcurl4-openssl-dev protobuf-compiler libopenblas-dev libhdf5-dev libprotobuf-dev libleveldb-dev libsnappy-dev liblmdb-dev libutfcpp-dev wget unzip libspdlog-dev python-setuptools python-dev libarchive-dev && \
@@ -12,12 +15,13 @@ RUN cmake . && \
     make install && \
     cp /usr/local/lib/libcurlpp.* /usr/lib/
 
-WORKDIR /opt
-RUN git clone https://github.com/jolibrain/deepdetect.git && cd deepdetect && mkdir build
-
-WORKDIR /opt/deepdetect/build
-RUN cmake .. -DUSE_XGBOOST=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DUSE_NCNN=ON && \
-    make -j
+# Build Deepdetect
+ADD ./ /opt/deepdetect
+RUN cd /opt/deepdetect &&\
+    mkdir build && \ 
+    cd build && \
+    cp ../docker/build.sh ./ && \
+    ./build.sh
 
 FROM ubuntu:16.04
 

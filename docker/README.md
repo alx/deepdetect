@@ -1,4 +1,4 @@
-## DeepDetect Docker images
+# DeepDetect Docker images
 
 This repository contains the Dockerfiles for building the CPU and GPU images for deepdetect.
 
@@ -10,7 +10,7 @@ The docker images contain:
 
 This allows to run the container and set an image classification model based on deep (residual) nets in two short command line calls.
 
-### Getting and running official images
+## Getting and running official images
 
 ```
 docker pull jolibrain/deepdetect_cpu
@@ -20,7 +20,7 @@ or
 docker pull jolibrain/deepdetect_gpu
 ```
 
-#### Running the CPU image
+### Running the CPU image
 
 ```
 docker run -d -p 8080:8080 jolibrain/deepdetect_cpu
@@ -48,7 +48,7 @@ curl -X POST "http://localhost:8080/predict" -d "{\"service\":\"imageserv\",\"pa
 {"status":{"code":200,"msg":"OK"},"head":{"method":"/predict","time":852.0,"service":"imageserv"},"body":{"predictions":{"uri":"http://i.ytimg.com/vi/0vxOhd4qlnA/maxresdefault.jpg","classes":[{"prob":0.2255125343799591,"cat":"n03868863 oxygen mask"},{"prob":0.20917612314224244,"cat":"n03127747 crash helmet"},{"last":true,"prob":0.07399296760559082,"cat":"n03379051 football helmet"}]}}}
 ```
 
-#### Running the GPU image
+### Running the GPU image
 
 This requires [nvidia-docker](https://github.com/NVIDIA/nvidia-docker) in order for the local GPUs to be made accessible by the container.
 
@@ -75,7 +75,7 @@ curl -X POST "http://localhost:8080/predict" -d "{\"service\":\"imageserv\",\"pa
 
 Try the `POST` call twice: first time loads the net so it takes slightly below a second, then second call should yield a `time` around 100ms as reported in the output JSON.
 
-#### Access to server logs
+### Access to server logs
 
 To look at server logs, use 
 ```
@@ -112,10 +112,52 @@ docker run -d -p 8080:8080 -v /path/to/volume:/mnt jolibrain/deepdetect_cpu
 ```
 where `path/to/volume` is the path to your local volume that you'd like to attach to `/opt/deepdetect/`. This is useful for sharing / saving models, etc...
 
-#### Building an image
+## Build Deepdetect Docker images
 
-Example goes with the CPU image:
+Dockerfiles are presents on project root folder.
+
+We choose to prefix Dockerfiles with target architecture :
+* cpu-armv7.Dockerfile
+* cpu.Dockerfile
+* gpu.Dockerfile
+
+### Build script 
+
+Build script is avaliable in docker path : docker/build.sh
+
+Docker build-arg : DEEPDETECT_BUILD
+
+Description : DEEPDETECT_BUILD build argument change cmake arguments in build.sh script.
+
+Expected values :
+
+* CPU
+  * caffe-tf
+  * default
+* GPU
+  * caffe-cpu-tf
+  * caffe-tf
+  * caffe2
+  * p100
+  * volta
+  * default
+
+### Building an image
+
+Example with CPU image:
 ```
-cd cpu
-docker build -t jolibrain/deepdetect_cpu --no-cache .
+# Build with default cmake 
+docker build -t jolibrain/deepdetect_cpu --no-cache -f cpu.Dockerfile .
+
+# Build with custom cmake
+docker build --build-arg DEEPDETECT_BUILD=caffe-tf -t jolibrain/deepdetect_cpu --no-cache -f cpu.Dockerfile .
+```
+
+Example with GPU image:
+```
+# Build with default cmake 
+docker build -t jolibrain/deepdetect_gpu --no-cache -f gpu.Dockerfile .
+
+# Build with custom cmake
+docker build --build-arg DEEPDETECT_BUILD=caffe-tf -t jolibrain/deepdetect_gpu --no-cache -f gpu.Dockerfile .
 ```

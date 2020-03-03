@@ -1,5 +1,7 @@
 FROM nvidia/cuda:9.0-cudnn7-devel AS build
 
+ARG DEEPDETECT_ARCH=cpu
+ARG DEEPDETECT_BUILD=default
 
 # Install build dependencies
 RUN apt-get update && \ 
@@ -13,12 +15,12 @@ RUN cmake . && \
     make install && \
     cp /usr/local/lib/libcurlpp.* /usr/lib/
 
-WORKDIR /opt
-RUN git clone https://github.com/jolibrain/deepdetect.git && cd deepdetect && mkdir build
-
-WORKDIR /opt/deepdetect/build
-RUN cmake .. -DUSE_CUDNN=ON -DUSE_XGBOOST=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DCUDA_ARCH="-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_62,code=sm_62" && \
-    make -j
+# Build Deepdetect
+ADD ./ /opt/deepdetect
+RUN mkdir deepdetect/build && \ 
+    cd deepdetect/build && \
+    cp ../docker/build.sh ./ && \
+    ./build.sh
 
 FROM nvidia/cuda:9.0-cudnn7-runtime
 
