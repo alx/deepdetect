@@ -17,8 +17,9 @@ RUN cmake . && \
 
 # Build Deepdetect
 ADD ./ /opt/deepdetect
-RUN mkdir deepdetect/build && \ 
-    cd deepdetect/build && \
+RUN cd /opt/deepdetect &&\
+    mkdir build && \ 
+    cd build && \
     cp ../docker/build.sh ./ && \
     ./build.sh
 
