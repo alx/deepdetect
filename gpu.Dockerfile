@@ -1,6 +1,6 @@
 FROM nvidia/cuda:9.0-cudnn7-devel AS build
 
-ARG DEEPDETECT_ARCH=cpu
+ARG DEEPDETECT_ARCH=gpu
 ARG DEEPDETECT_BUILD=default
 
 # Install build dependencies
