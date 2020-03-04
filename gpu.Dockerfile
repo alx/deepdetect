@@ -1,4 +1,4 @@
-FROM nvidia/cuda:9.0-cudnn7-devel AS build
+FROM nvidia/cuda:9.0-cudnn7-devel-ubuntu16.04 AS build
 
 ARG DEEPDETECT_ARCH=gpu
 ARG DEEPDETECT_BUILD=default
@@ -23,7 +23,7 @@ RUN cd /opt/deepdetect &&\
     cp ../docker/build.sh ./ && \
     ./build.sh
 
-FROM nvidia/cuda:9.0-cudnn7-runtime
+FROM nvidia/cuda:9.0-cudnn7-runtime-ubuntu16.04
 
 # Copy Deepdetect binaries from previous step
 COPY --from=build /opt/deepdetect/build/main /opt/deepdetect/build/main
