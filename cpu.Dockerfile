@@ -17,11 +17,8 @@ RUN cmake . && \
 
 # Build Deepdetect
 ADD ./ /opt/deepdetect
-RUN cd /opt/deepdetect &&\
-    mkdir build && \ 
-    cd build && \
-    cp ../docker/build.sh ./ && \
-    ./build.sh
+WORKDIR /opt/deepdetect/build
+RUN ./build.sh
 
 FROM ubuntu:16.04
 

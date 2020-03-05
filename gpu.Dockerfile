@@ -20,11 +20,8 @@ RUN cmake . && \
 
 # Build Deepdetect
 ADD ./ /opt/deepdetect
-RUN cd /opt/deepdetect &&\
-    mkdir build && \ 
-    cd build && \
-    cp ../docker/build.sh ./ && \
-    ./build.sh
+WORKDIR /opt/deepdetect/build
+RUN ./build.sh
 
 FROM nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu16.04
 
