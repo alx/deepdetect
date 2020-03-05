@@ -123,7 +123,7 @@ We choose to prefix Dockerfiles with target architecture :
 
 ### Build script 
 
-Build script is avaliable in docker path : docker/build.sh
+Build script is avaliable in docker path : build/build.sh
 
 Docker build-arg : DEEPDETECT_BUILD
 
@@ -141,6 +141,21 @@ Expected values :
   * p100
   * volta
   * default
+
+#### Launch build with environments variables
+
+```bash
+DEEPDETECT_ARCH=cpu,gpu DEEPDETECT_BUILD=default,caffe-tf,armv7,[...] ./build.sh
+```
+
+#### Launch build with build script parameters
+
+```bash
+Params usage: ./build.sh [options...]
+
+   -a, --deepdetect-arch          Choose Deepdetect architecture : cpu,gpu
+   -b, --deepdetect-build         Choose Deepdetect build profile : CPU (default,caffe-tf,armv7) / GPU (default,caffe-cpu-tf,caffe-tf,caffe2,p100,volta)
+```
 
 ### Building an image
 
