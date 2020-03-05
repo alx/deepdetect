@@ -11,7 +11,7 @@ function cpu_build {
         make -j
         ;;
 
-    "default")
+    *)
         cmake .. -DUSE_XGBOOST=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DUSE_NCNN=ON
         make -j
         ;;
