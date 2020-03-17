@@ -1,6 +1,3 @@
-# Download default Deepdetect models
-ARG DEEPDETECT_DEFAULT_MODELS=true
-
 FROM ubuntu:16.04 AS build
 
 ARG DEEPDETECT_ARCH=cpu
@@ -24,6 +21,9 @@ WORKDIR /opt/deepdetect/build
 RUN ./build.sh
 
 FROM ubuntu:16.04
+
+# Download default Deepdetect models
+ARG DEEPDETECT_DEFAULT_MODELS=true
 
 # Copy Deepdetect binaries from previous step
 COPY --from=build /opt/deepdetect/build/main /opt/deepdetect/build/main
