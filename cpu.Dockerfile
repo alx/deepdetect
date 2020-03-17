@@ -27,6 +27,7 @@ FROM ubuntu:16.04
 
 # Copy Deepdetect binaries from previous step
 COPY --from=build /opt/deepdetect/build/main /opt/deepdetect/build/main
+COPY --from=build /opt/deepdetect/build/get_models.sh /opt/deepdetect/build/get_models.sh
 
 LABEL maintainer="emmanuel.benazera@jolibrain.com"
 LABEL description="DeepDetect deep learning server & API / CPU version"
