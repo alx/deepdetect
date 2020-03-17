@@ -1,6 +1,9 @@
 # Default CUDA version
 ARG CUDA_VERSION=9.0-cudnn7
 
+# Download default Deepdetect models
+ARG DEEPDETECT_DEFAULT_MODELS=true
+
 FROM nvidia/cuda:${CUDA_VERSION}-devel-ubuntu16.04 AS build
 
 ARG DEEPDETECT_ARCH=gpu
@@ -49,13 +52,7 @@ RUN mkdir /opt/models
 
 # Include a few image models within the image
 WORKDIR /opt/models
-RUN mkdir ggnet && cd ggnet && \
-    wget https://www.deepdetect.com/models/ggnet/bvlc_googlenet.caffemodel
-
-RUN mkdir resnet_50 && cd resnet_50 && \
-    wget https://www.deepdetect.com/models/resnet/ResNet-50-model.caffemodel && \
-    wget https://www.deepdetect.com/models/resnet/ResNet_mean.binaryproto && \
-    mv /opt/models/resnet_50/ResNet_mean.binaryproto /opt/models/resnet_50/mean.binaryproto
+RUN /opt/deepdetect/build/get_models.sh
 
 COPY --chown=dd --from=build /opt/deepdetect/datasets/imagenet/corresp_ilsvrc12.txt /opt/models/ggnet/corresp.txt
 COPY --chown=dd --from=build /opt/deepdetect/datasets/imagenet/corresp_ilsvrc12.txt /opt/models/resnet_50/corresp.txt

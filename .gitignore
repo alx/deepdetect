@@ -1,6 +1,7 @@
 build/*
 !build/README.md
 !build/build.sh
+!build/get_models.sh
 model/
 models/
 clients/
