@@ -159,19 +159,33 @@ Params usage: ./build.sh [options...]
 
 ### Building an image
 
+#### Docker build arguments
+
+* DEEPDETECT_BUILD : Change cmake arguments, checkout build script documentation.
+* DEEPDETECT_DEFAULT_MODELS : [**true**/false] Enable or disable default models in deepdetect docker image. Default models size is about 160MB.
+
+#### Build examples
+
 Example with CPU image:
 ```
 # Build with default cmake 
 docker build -t jolibrain/deepdetect_cpu --no-cache -f cpu.Dockerfile .
 
+# Build with default cmake and without default models
+docker build --build-arg DEEPDETECT_DEFAULT_MODELS=false -t jolibrain/deepdetect_cpu --no-cache -f cpu.Dockerfile .
+
 # Build with custom cmake
 docker build --build-arg DEEPDETECT_BUILD=caffe-tf -t jolibrain/deepdetect_cpu --no-cache -f cpu.Dockerfile .
+
 ```
 
 Example with GPU image:
 ```
 # Build with default cmake 
 docker build -t jolibrain/deepdetect_gpu --no-cache -f gpu.Dockerfile .
+
+# Build with default cmake and without default models
+docker build --build-arg DEEPDETECT_DEFAULT_MODELS=false -t jolibrain/deepdetect_gpu --no-cache -f gpu.Dockerfile .
 
 # Build with custom cmake
 docker build --build-arg DEEPDETECT_BUILD=caffe-tf -t jolibrain/deepdetect_gpu --no-cache -f gpu.Dockerfile .
