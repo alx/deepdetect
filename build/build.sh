@@ -4,8 +4,8 @@ set -e
 
 # Deepdetect architecture and build profiles
 deepdetect_arch=(cpu gpu)
-deepdetect_cpu_build_profiles=(default caffe-tf armv7)
-deepdetect_gpu_build_profiles=(default caffe-cpu-tf caffe-tf caffe2 p100 volta)
+deepdetect_cpu_build_profiles=(default caffe-cpu-tf caffe-tf armv7)
+deepdetect_gpu_build_profiles=(default caffe-tf caffe2 p100 volta)
 
 # Help menu with arguments descriptions
 help_menu() {
@@ -107,6 +107,11 @@ cpu_build() {
 
     case ${DEEPDETECT_BUILD} in
 
+    "caffe-cpu-tf")
+        cmake .. -DUSE_TF=ON -DUSE_TF_CPU_ONLY=ON -DUSE_CUDNN=ON -DUSE_XGBOOST=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DCUDA_ARCH="-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_61,code=sm_61"
+        make
+        ;;
+
     "caffe-tf")
         cmake .. -DUSE_TF=ON -DUSE_TF_CPU_ONLY=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DUSE_NCNN=OFF
         make -j
@@ -128,11 +133,6 @@ cpu_build() {
 gpu_build() {
 
     case ${DEEPDETECT_BUILD} in
-
-    "caffe-cpu-tf")
-        cmake .. -DUSE_TF=ON -DUSE_TF_CPU_ONLY=ON -DUSE_CUDNN=ON -DUSE_XGBOOST=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DCUDA_ARCH="-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_61,code=sm_61"
-        make
-        ;;
 
     "caffe-tf")
         cmake .. -DUSE_TF=ON -DUSE_CUDNN=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DCUDA_ARCH="-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_61,code=sm_61"
