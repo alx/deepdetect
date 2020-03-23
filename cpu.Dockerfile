@@ -15,6 +15,14 @@ RUN cmake . && \
     make install && \
     cp /usr/local/lib/libcurlpp.* /usr/lib/
 
+WORKDIR /opt
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.14.0/cmake-3.14.0.tar.gz
+RUN tar xvzf cmake-3.14.0.tar.gz
+WORKDIR /opt/cmake-3.14.0
+RUN ./bootstrap && \
+    make && \
+    make install
+
 # Build Deepdetect
 ADD ./ /opt/deepdetect
 WORKDIR /opt/deepdetect/build
