@@ -7,7 +7,13 @@ ARG DEEPDETECT_BUILD=default
 RUN apt-get update && \ 
     apt-get install -y git \
     cmake \
+    automake \
     build-essential \
+    openjdk-8-jdk \
+    pkg-config \
+    zip \
+    g++ \
+    zlib1g-dev \
     libgoogle-glog-dev \
     libgflags-dev \
     libeigen3-dev \
@@ -15,6 +21,7 @@ RUN apt-get update && \
     libcppnetlib-dev \
     libboost-dev \
     libboost-iostreams-dev \
+    libcurlpp-dev \
     libcurl4-openssl-dev \
     protobuf-compiler \
     libopenblas-dev \
@@ -25,10 +32,19 @@ RUN apt-get update && \
     liblmdb-dev \
     libutfcpp-dev \
     wget \
+    autoconf \
+    libtool-bin \
+    python-numpy \
+    python-future \
+    swig \
+    curl \
     unzip \
     libspdlog-dev \
     python-setuptools \
     python-dev \
+    python-wheel \
+    unzip \
+    libgoogle-perftools-dev \
     libarchive-dev \
     bash-completion && \
     wget -O /tmp/bazel.deb https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel_0.24.1-linux-x86_64.deb && \
