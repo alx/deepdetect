@@ -2,7 +2,7 @@
 
 set -e
 
-mkdir /tmp/lib
+mkdir -p /tmp/lib
 
 libs=(
     /usr/local/lib/libcurlpp.*
@@ -15,12 +15,11 @@ libs=(
 
 for index in ${!libs[*]}; do
 
-    if [ -f "$libs[index]" ]; then
-        echo "Copy $libs[index] to /tmp/lib/"
-        cp -a $libs[index] /tmp/lib/
+    if [ -f "${libs[index]}" ]; then
+        echo "Copy ${libs[index]} to /tmp/lib/"
+        cp -a ${libs[index]} /tmp/lib/
     else
-        echo "$libs[index] is not found."
+        echo ${libs[index]} 'is not found.'
     fi
-    
-done
 
+done
