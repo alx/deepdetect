@@ -99,7 +99,6 @@ RUN apt-get update && \
 	libboost-thread1.58.0 \
 	libboost-iostreams1.58.0 \
 	libarchive13 \
-	libprotobuf-dev \
 	libprotobuf9v5 && \
     rm -rf /var/lib/apt/lists/*
 
