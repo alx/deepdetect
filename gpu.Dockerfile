@@ -69,6 +69,8 @@ RUN cmake . && \
 ADD ./ /opt/deepdetect
 WORKDIR /opt/deepdetect/build
 RUN ./build.sh
+# Copy libs to /tmp/libs for next build stage
+RUN ./get_libs.sh
 
 FROM nvidia/cuda:${CUDA_VERSION}-runtime-ubuntu16.04
 
@@ -121,12 +123,7 @@ COPY --chown=dd --from=build /opt/deepdetect/datasets/imagenet/corresp_ilsvrc12.
 COPY --chown=dd --from=build /opt/deepdetect/datasets/imagenet/corresp_ilsvrc12.txt /opt/models/resnet_50/corresp.txt
 COPY --chown=dd --from=build /opt/deepdetect/templates/caffe/googlenet/*prototxt /opt/models/ggnet/
 COPY --chown=dd --from=build /opt/deepdetect/templates/caffe/resnet_50/*prototxt /opt/models/resnet_50/
-COPY --from=build /usr/local/lib/libcurlpp.* /usr/lib/
-COPY --from=build /opt/deepdetect/build/tensorflow_cc/src/tensorflow_cc/tensorflow_cc/build/tensorflow/bazel-out/k8-opt/bin/tensorflow/libtensorflow_cc.so.1 /usr/lib/
-COPY --from=build /opt/deepdetect/build/tensorflow_cc/src/tensorflow_cc/tensorflow_cc/build/tensorflow/tensorflow/contrib/makefile/gen/protobuf-host/lib/libprotobuf.so.19 /usr/lib/
-COPY --from=build /opt/deepdetect/build/caffe_dd/src/caffe_dd/.build_release/lib/libcaffe.so.1.0.0-rc3 /usr/lib/
-COPY --from=build /opt/deepdetect/build/Multicore-TSNE/src/Multicore-TSNE/multicore_tsne/build/libtsne_multicore.so /usr/lib/
-COPY --from=build /opt/deepdetect/build/faiss/src/faiss/libfaiss.so /usr/lib/
+COPY --from=build /tmp/lib/* /usr/lib/
 
 WORKDIR /opt/deepdetect/build/main
 VOLUME ["/data"]
