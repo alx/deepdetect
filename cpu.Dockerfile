@@ -123,7 +123,6 @@ COPY --chown=dd --from=build /opt/deepdetect/datasets/imagenet/corresp_ilsvrc12.
 COPY --chown=dd --from=build /opt/deepdetect/datasets/imagenet/corresp_ilsvrc12.txt /opt/models/resnet_50/corresp.txt
 COPY --chown=dd --from=build /opt/deepdetect/templates/caffe/googlenet/*prototxt /opt/models/ggnet/
 COPY --chown=dd --from=build /opt/deepdetect/templates/caffe/resnet_50/*prototxt /opt/models/resnet_50/
-COPY --from=build /usr/local/lib/libcurlpp.* /usr/lib/
 COPY --from=build /tmp/lib/* /usr/lib/
 
 WORKDIR /opt/deepdetect/build/main
