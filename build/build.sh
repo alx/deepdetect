@@ -136,22 +136,22 @@ gpu_build() {
 
     "caffe-tf")
         cmake .. -DUSE_TF=ON -DUSE_CUDNN=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DCUDA_ARCH="-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_61,code=sm_61"
-        make
+        make -j
         ;;
 
     "caffe2")
         cmake .. -DUSE_CUDNN=ON -DUSE_XGBOOST=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DUSE_CAFFE2=ON -DCUDA_ARCH="-gencode arch=compute_30,code=sm_30 -gencode arch=compute_35,code=sm_35 -gencode arch=compute_50,code=sm_50 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_53,code=sm_53 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_62,code=sm_62"
-        make
+        make -j
         ;;
 
     "p100")
         cmake .. -DUSE_CUDNN=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DCUDA_ARCH="-gencode arch=compute_60,code=sm_60"
-        make
+        make -j
         ;;
 
     "volta")
         cmake .. -DUSE_CUDNN=ON -DUSE_SIMSEARCH=ON -DUSE_TSNE=ON -DCUDA_ARCH="-gencode arch=compute_70,code=sm_70"
-        make
+        make -j
         ;;
 
     *)

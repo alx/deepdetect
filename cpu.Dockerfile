@@ -3,8 +3,13 @@ FROM ubuntu:16.04 AS build
 ARG DEEPDETECT_ARCH=cpu
 ARG DEEPDETECT_BUILD=default
 
+# Add gcc7 repository
+RUN apt update && \
+    apt install -y software-properties-common && \
+    add-apt-repository ppa:ubuntu-toolchain-r/test -y
+
 # Install build dependencies
-RUN apt-get update && \ 
+RUN apt-get update -y && \
     apt-get install -y git \
     cmake \
     automake \
@@ -13,6 +18,7 @@ RUN apt-get update && \
     pkg-config \
     zip \
     g++ \
+    gcc-7 g++-7 \
     zlib1g-dev \
     libgoogle-glog-dev \
     libgflags-dev \
@@ -49,6 +55,7 @@ RUN apt-get update && \
     bash-completion && \
     wget -O /tmp/bazel.deb https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel_0.24.1-linux-x86_64.deb && \
     dpkg -i /tmp/bazel.deb && \
+    apt remove -y libcurlpp0 && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt
@@ -77,7 +84,23 @@ LABEL description="DeepDetect deep learning server & API / CPU version"
 
 # Install tools and dependencies
 RUN apt-get update && \ 
-    apt-get install -y wget libopenblas-base liblmdb0 libleveldb1v5 libboost-regex1.58.0 libgoogle-glog0v5 libopencv-highgui2.4v5 libcppnetlib0 libgflags2v5 libcurl3 libhdf5-cpp-11 libboost-filesystem1.58.0 libboost-thread1.58.0 libboost-iostreams1.58.0 libarchive13 libprotobuf9v5 && \
+    apt-get install -y wget \
+	libopenblas-base \
+	liblmdb0 \
+	libleveldb1v5 \
+	libboost-regex1.58.0 \
+	libgoogle-glog0v5 \
+	libopencv-highgui2.4v5 \
+	libcppnetlib0 \
+	libgflags2v5 \
+	libcurl3 \
+	libhdf5-cpp-11 \
+	libboost-filesystem1.58.0 \
+	libboost-thread1.58.0 \
+	libboost-iostreams1.58.0 \
+	libarchive13 \
+	libprotobuf-dev \
+	libprotobuf9v5 && \
     rm -rf /var/lib/apt/lists/*
 
 # Fix permissions
@@ -100,6 +123,8 @@ COPY --chown=dd --from=build /opt/deepdetect/datasets/imagenet/corresp_ilsvrc12.
 COPY --chown=dd --from=build /opt/deepdetect/templates/caffe/googlenet/*prototxt /opt/models/ggnet/
 COPY --chown=dd --from=build /opt/deepdetect/templates/caffe/resnet_50/*prototxt /opt/models/resnet_50/
 COPY --from=build /usr/local/lib/libcurlpp.* /usr/lib/
+COPY --from=build /opt/deepdetect/build/tensorflow_cc/src/tensorflow_cc/tensorflow_cc/build/tensorflow/bazel-out/k8-opt/bin/tensorflow/libtensorflow_cc.so.1 /usr/lib/
+COPY --from=build /opt/deepdetect/build/tensorflow_cc/src/tensorflow_cc/tensorflow_cc/build/tensorflow/tensorflow/contrib/makefile/gen/protobuf-host/lib/libprotobuf.so.19 /usr/lib/
 COPY --from=build /opt/deepdetect/build/caffe_dd/src/caffe_dd/.build_release/lib/libcaffe.so.1.0.0-rc3 /usr/lib/
 COPY --from=build /opt/deepdetect/build/Multicore-TSNE/src/Multicore-TSNE/multicore_tsne/build/libtsne_multicore.so /usr/lib/
 COPY --from=build /opt/deepdetect/build/faiss/src/faiss/libfaiss.so /usr/lib/
