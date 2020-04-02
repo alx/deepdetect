@@ -55,8 +55,9 @@ RUN apt-get update -y && \
     bash-completion && \
     wget -O /tmp/bazel.deb https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel_0.24.1-linux-x86_64.deb && \
     dpkg -i /tmp/bazel.deb && \
-    apt remove -y libcurlpp0 && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get remove -y libcurlpp0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /opt
 RUN git clone https://github.com/jpbarrette/curlpp.git

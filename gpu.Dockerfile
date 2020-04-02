@@ -10,7 +10,7 @@ ARG DEEPDETECT_ARCH=gpu
 ARG DEEPDETECT_BUILD=default
 
 # Install build dependencies
-RUN apt-get update && \ 
+RUN apt-get update && \
     apt-get install -y git \
     cmake \
     automake \
@@ -56,7 +56,9 @@ RUN apt-get update && \
     bash-completion && \
     wget -O /tmp/bazel.deb https://github.com/bazelbuild/bazel/releases/download/0.24.1/bazel_0.24.1-linux-x86_64.deb && \
     dpkg -i /tmp/bazel.deb && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get remove -y libcurlpp0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /opt
 RUN git clone https://github.com/jpbarrette/curlpp.git
@@ -68,6 +70,10 @@ RUN cmake . && \
 # Build Deepdetect
 ADD ./ /opt/deepdetect
 WORKDIR /opt/deepdetect/build
+
+## Tmp fix
+RUN apt update && apt install -y python-pip && pip install future
+
 RUN ./build.sh
 # Copy libs to /tmp/libs for next build stage
 RUN ./get_libs.sh
