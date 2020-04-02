@@ -48,6 +48,7 @@ RUN apt-get update && \
     python-setuptools \
     python-dev \
     python-wheel \
+    python-pip \
     unzip \
     libgoogle-perftools-dev \
     curl \
@@ -60,6 +61,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Fix "ImportError: No module named builtins"
+RUN pip install future
+
 WORKDIR /opt
 RUN git clone https://github.com/jpbarrette/curlpp.git
 WORKDIR /opt/curlpp
@@ -70,9 +74,6 @@ RUN cmake . && \
 # Build Deepdetect
 ADD ./ /opt/deepdetect
 WORKDIR /opt/deepdetect/build
-
-## Tmp fix
-RUN apt update && apt install -y python-pip && pip install future
 
 RUN ./build.sh
 # Copy libs to /tmp/libs for next build stage
