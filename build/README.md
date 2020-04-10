@@ -135,11 +135,14 @@ Expected values :
   * caffe-tf
   * default
 * GPU
+  * tf
   * caffe-cpu-tf
   * caffe-tf
   * caffe2
   * p100
   * volta
+  * volta-faiss
+  * faiss
   * default
 
 #### Launch build with environments variables
@@ -176,6 +179,16 @@ docker build --build-arg DEEPDETECT_DEFAULT_MODELS=false -t jolibrain/deepdetect
 
 # Build with custom cmake
 docker build --build-arg DEEPDETECT_BUILD=caffe-tf -t jolibrain/deepdetect_cpu --no-cache -f cpu.Dockerfile .
+
+```
+
+Example with CPU (armv7) image:
+```
+# Build with default cmake 
+docker build -t jolibrain/deepdetect_cpu:armv7 --no-cache -f cpu-armv7.Dockerfile .
+
+# Build with default cmake and without default models
+docker build --build-arg DEEPDETECT_DEFAULT_MODELS=false -t jolibrain/deepdetect_cpu:armv7 --no-cache -f cpu-armv7.Dockerfile .
 
 ```
 
