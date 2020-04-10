@@ -52,26 +52,6 @@ if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_cpu_tf:$TAG_NOMODELS
 fi
 
-echo 'ncnn_pi3 build'
-date
-docker build -t jolibrain/deepdetect_ncnn_pi3:$TAG_MODELS \
-  --build-arg DEEPDETECT_BUILD=armv7 \
-  --no-cache \
-  -f cpu-armv7.Dockerfile \
-  . > docker_build_logs/deepdetect_ncnn_pi3.log
-
-docker build -t jolibrain/deepdetect_ncnn_pi3:$TAG_NOMODELS \
-  --build-arg DEEPDETECT_BUILD=armv7 \
-  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
-  --no-cache \
-  -f cpu-armv7.Dockerfile \
-  . > docker_build_logs/deepdetect_ncnn_pi3_nomodels.log
-
-if [ "$PUSH_DOCKERHUB" = true ] ; then
-  docker push jolibrain/deepdetect_ncnn_pi3:$TAG_MODELS
-  docker push jolibrain/deepdetect_ncnn_pi3:$TAG_NOMODELS
-fi
-
 #
 # GPU - CUDA 9
 #
@@ -114,28 +94,6 @@ if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_gpu_tf:$TAG_NOMODELS
 fi
 
-## TODO: fix, current build not working
-##
-## echo 'caffe2 gpu build'
-## date
-## docker build -t jolibrain/deepdetect_gpu_caffe2:$TAG_MODELS \
-##   --build-arg DEEPDETECT_BUILD=caffe2 \
-##   --no-cache \
-##   -f gpu.Dockerfile \
-##   . > docker_build_logs/deepdetect_gpu_caffe2.log
-##
-## docker build -t jolibrain/deepdetect_gpu_caffe2:$TAG_NOMODELS \
-##   --build-arg DEEPDETECT_BUILD=caffe2 \
-##   --build-arg DEEPDETECT_DEFAULT_MODELS=false \
-##   --no-cache \
-##   -f gpu.Dockerfile \
-##   . > docker_build_logs/deepdetect_gpu_caffe2_nomodels.log
-##
-## if [ "$PUSH_DOCKERHUB" = true ] ; then
-##   docker push jolibrain/deepdetect_gpu_caffe2:$TAG_MODELS
-##   docker push jolibrain/deepdetect_gpu_caffe2:$TAG_NOMODELS
-## fi
-
 echo 'p100 gpu build'
 date
 docker build -t jolibrain/deepdetect_gpu_p100:$TAG_MODELS \
@@ -176,6 +134,49 @@ if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_gpu_volta:$TAG_NOMODELS
 fi
 
+## TODO: build this one on armv7 hardware
+##
+## echo 'ncnn_pi3 build'
+## date
+## docker build -t jolibrain/deepdetect_ncnn_pi3:$TAG_MODELS \
+##   --build-arg DEEPDETECT_BUILD=armv7 \
+##   --no-cache \
+##   -f cpu-armv7.Dockerfile \
+##   . > docker_build_logs/deepdetect_ncnn_pi3.log
+##
+## docker build -t jolibrain/deepdetect_ncnn_pi3:$TAG_NOMODELS \
+##   --build-arg DEEPDETECT_BUILD=armv7 \
+##   --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+##   --no-cache \
+##   -f cpu-armv7.Dockerfile \
+##   . > docker_build_logs/deepdetect_ncnn_pi3_nomodels.log
+##
+## if [ "$PUSH_DOCKERHUB" = true ] ; then
+##   docker push jolibrain/deepdetect_ncnn_pi3:$TAG_MODELS
+##   docker push jolibrain/deepdetect_ncnn_pi3:$TAG_NOMODELS
+## fi
+##
+## TODO: fix, current build not working
+##
+## echo 'caffe2 gpu build'
+## date
+## docker build -t jolibrain/deepdetect_gpu_caffe2:$TAG_MODELS \
+##   --build-arg DEEPDETECT_BUILD=caffe2 \
+##   --no-cache \
+##   -f gpu.Dockerfile \
+##   . > docker_build_logs/deepdetect_gpu_caffe2.log
+##
+## docker build -t jolibrain/deepdetect_gpu_caffe2:$TAG_NOMODELS \
+##   --build-arg DEEPDETECT_BUILD=caffe2 \
+##   --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+##   --no-cache \
+##   -f gpu.Dockerfile \
+##   . > docker_build_logs/deepdetect_gpu_caffe2_nomodels.log
+##
+## if [ "$PUSH_DOCKERHUB" = true ] ; then
+##   docker push jolibrain/deepdetect_gpu_caffe2:$TAG_MODELS
+##   docker push jolibrain/deepdetect_gpu_caffe2:$TAG_NOMODELS
+## fi
 ## TODO: deploy these configurations
 ##
 ## echo 'gpu_xavier build'
