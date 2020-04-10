@@ -136,6 +136,7 @@ Expected values :
   * default
 * GPU
   * tf
+  * tf-cpu
   * caffe-cpu-tf
   * caffe-tf
   * caffe2
