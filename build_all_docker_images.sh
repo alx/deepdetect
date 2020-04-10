@@ -94,6 +94,26 @@ if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_gpu_tf:$TAG_NOMODELS
 fi
 
+echo 'gpu_tf_cpu build'
+date
+docker build -t jolibrain/deepdetect_gpu_tf_cpu:$TAG_MODELS \
+  --build-arg DEEPDETECT_BUILD=caffe-cpu-tf \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_tf_cpu.log
+
+docker build -t jolibrain/deepdetect_gpu_tf_cpu:$TAG_NOMODELS \
+  --build-arg DEEPDETECT_BUILD=caffe-cpu-tf \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_tf_cpu_nomodels.log
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_gpu_tf_cpu:$TAG_MODELS
+  docker push jolibrain/deepdetect_gpu_tf_cpu:$TAG_NOMODELS
+fi
+
 echo 'p100 gpu build'
 date
 docker build -t jolibrain/deepdetect_gpu_p100:$TAG_MODELS \
@@ -132,6 +152,46 @@ docker build -t jolibrain/deepdetect_gpu_volta:$TAG_NOMODELS \
 if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_gpu_volta:$TAG_MODELS
   docker push jolibrain/deepdetect_gpu_volta:$TAG_NOMODELS
+fi
+
+echo 'gpu_faiss build'
+date
+docker build -t jolibrain/deepdetect_gpu_faiss:$TAG_MODELS \
+  --build-arg DEEPDETECT_BUILD=faiss \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_faiss.log
+
+docker build -t jolibrain/deepdetect_gpu_faiss:$TAG_NOMODELS \
+  --build-arg DEEPDETECT_BUILD=faiss \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_faiss_nomodels.log
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_gpu_faiss:$TAG_MODELS
+  docker push jolibrain/deepdetect_gpu_faiss:$TAG_NOMODELS
+fi
+
+echo 'gpu_volta_faiss build'
+date
+docker build -t jolibrain/deepdetect_gpu_volta_faiss:$TAG_MODELS \
+  --build-arg DEEPDETECT_BUILD=volta-faiss \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_volta_faiss.log
+
+docker build -t jolibrain/deepdetect_gpu_volta_faiss:$TAG_NOMODELS \
+  --build-arg DEEPDETECT_BUILD=volta-faiss \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_volta_faiss_nomodels.log
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_gpu_volta_faiss:$TAG_MODELS
+  docker push jolibrain/deepdetect_gpu_volta_faiss:$TAG_NOMODELS
 fi
 
 ## TODO: build this one on armv7 hardware
@@ -199,42 +259,3 @@ fi
 ##   docker push jolibrain/deepdetect_gpu_xavier:$TAG_NOMODELS
 ## fi
 ##
-## echo 'gpu_faiss build'
-## date
-## docker build -t jolibrain/deepdetect_gpu_faiss:$TAG_MODELS \
-##   --build-arg DEEPDETECT_BUILD=volta \
-##   --no-cache \
-##   -f gpu.Dockerfile \
-##   . > docker_build_logs/deepdetect_gpu_faiss.log
-##
-## docker build -t jolibrain/deepdetect_gpu_faiss:$TAG_NOMODELS \
-##   --build-arg DEEPDETECT_BUILD=volta \
-##   --build-arg DEEPDETECT_DEFAULT_MODELS=false \
-##   --no-cache \
-##   -f gpu.Dockerfile \
-##   . > docker_build_logs/deepdetect_gpu_faiss_nomodels.log
-##
-## if [ "$PUSH_DOCKERHUB" = true ] ; then
-##   docker push jolibrain/deepdetect_gpu_faiss:$TAG_MODELS
-##   docker push jolibrain/deepdetect_gpu_faiss:$TAG_NOMODELS
-## fi
-##
-## echo 'gpu_volta_faiss build'
-## date
-## docker build -t jolibrain/deepdetect_gpu_volta_faiss:$TAG_MODELS \
-##   --build-arg DEEPDETECT_BUILD=volta \
-##   --no-cache \
-##   -f gpu.Dockerfile \
-##   . > docker_build_logs/deepdetect_gpu_volta_faiss.log
-##
-## docker build -t jolibrain/deepdetect_gpu_volta_faiss:$TAG_NOMODELS \
-##   --build-arg DEEPDETECT_BUILD=volta \
-##   --build-arg DEEPDETECT_DEFAULT_MODELS=false \
-##   --no-cache \
-##   -f gpu.Dockerfile \
-##   . > docker_build_logs/deepdetect_gpu_volta_faiss_nomodels.log
-##
-## if [ "$PUSH_DOCKERHUB" = true ] ; then
-##   docker push jolibrain/deepdetect_gpu_volta_faiss:$TAG_MODELS
-##   docker push jolibrain/deepdetect_gpu_volta_faiss:$TAG_NOMODELS
-## fi
