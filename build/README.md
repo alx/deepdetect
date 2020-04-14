@@ -188,9 +188,6 @@ Example with CPU (armv7) image:
 # Build with default cmake 
 docker build -t jolibrain/deepdetect_cpu:armv7 --no-cache -f cpu-armv7.Dockerfile .
 
-# Build with default cmake and without default models
-docker build --build-arg DEEPDETECT_DEFAULT_MODELS=false -t jolibrain/deepdetect_cpu:armv7 --no-cache -f cpu-armv7.Dockerfile .
-
 ```
 
 Example with GPU image:
