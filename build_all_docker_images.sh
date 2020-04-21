@@ -81,8 +81,20 @@ if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_gpu_faiss:$DOCKER_TAG
 fi
 
+echo 'gpu_pytorch build'
+date
+docker build -t jolibrain/deepdetect_gpu_pytorch:$DOCKER_TAG \
+  --build-arg DEEPDETECT_BUILD=pytorch \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_pytorch.log
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_gpu_tf_cpu:$DOCKER_TAG
+fi
+
 # deepdetect_gpu_caffe2
-# deepdetect_gpu_pytorch -  -DUSE_TORCH=ON
 
 ## TODO: build this one on armv7 hardware
 ##

@@ -5,7 +5,7 @@ set -e
 # Deepdetect architecture and build profiles
 deepdetect_arch=(cpu gpu)
 deepdetect_cpu_build_profiles=(default caffe-tf armv7)
-deepdetect_gpu_build_profiles=(default tf tf-cpu caffe-cpu-tf caffe-tf caffe2 p100 volta volta-faiss faiss)
+deepdetect_gpu_build_profiles=(default tf tf-cpu caffe-cpu-tf caffe-tf caffe2 p100 volta volta-faiss faiss pytorch)
 
 # Help menu with arguments descriptions
 help_menu() {
@@ -235,6 +235,17 @@ gpu_build() {
             -DUSE_XGBOOST=ON \
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
+            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+        make -j
+        ;;
+
+    "pytorch")
+        cmake .. \
+            -DUSE_CUDNN=ON \
+            -DUSE_XGBOOST=ON \
+            -DUSE_SIMSEARCH=ON \
+            -DUSE_TSNE=ON \
+            -DUSE_TORCH=ON \
             -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
         make -j
         ;;
