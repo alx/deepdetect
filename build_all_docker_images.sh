@@ -71,7 +71,7 @@ fi
 echo 'gpu_tf_cpu build'
 date
 docker build -t jolibrain/deepdetect_gpu_tf_cpu:$DOCKER_TAG \
-  --build-arg DEEPDETECT_BUILD=caffe-cpu-tf \
+  --build-arg DEEPDETECT_BUILD=tf-cpu \
   --build-arg DEEPDETECT_DEFAULT_MODELS=false \
   --no-cache \
   -f gpu.Dockerfile \
