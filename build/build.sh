@@ -140,8 +140,6 @@ cpu_build() {
 
 gpu_build() {
 
-    DEFAULT_CUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
-
     case ${DEEPDETECT_BUILD} in
 
     "tf")
@@ -151,7 +149,7 @@ gpu_build() {
             -DUSE_XGBOOST=ON \
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+            -DCUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
         make -j
         ;;
 
@@ -163,7 +161,7 @@ gpu_build() {
             -DUSE_XGBOOST=ON \
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+            -DCUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
         make -j
         ;;
 
@@ -175,7 +173,7 @@ gpu_build() {
             -DUSE_XGBOOST=ON \
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+            -DCUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
         make
         ;;
 
@@ -185,7 +183,7 @@ gpu_build() {
             -DUSE_CUDNN=ON \
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+            -DCUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
         make -j
         ;;
 
@@ -196,7 +194,6 @@ gpu_build() {
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
             -DUSE_CAFFE2=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
         make -j
         ;;
 
@@ -235,7 +232,7 @@ gpu_build() {
             -DUSE_XGBOOST=ON \
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+            -DCUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
         make -j
         ;;
 
@@ -246,7 +243,7 @@ gpu_build() {
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
             -DUSE_TORCH=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+            -DCUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
         make -j
         ;;
 
@@ -256,7 +253,7 @@ gpu_build() {
             -DUSE_XGBOOST=ON \
             -DUSE_SIMSEARCH=ON \
             -DUSE_TSNE=ON \
-            -DCUDA_ARCH=$DEFAULT_CUDA_ARCH
+            -DCUDA_ARCH="-gencode arch=compute_37,code=sm_37 -gencode arch=compute_52,code=sm_52 -gencode arch=compute_61,code=sm_61 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75"
         make -j
         ;;
     esac
