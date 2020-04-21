@@ -1,5 +1,5 @@
 # Default CUDA version
-ARG CUDA_VERSION=9.0-cudnn7
+ARG CUDA_VERSION=10.0-cudnn7
 
 # Download default Deepdetect models
 ARG DEEPDETECT_DEFAULT_MODELS=true
