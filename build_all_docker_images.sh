@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set deepdetect version tags
-DOCKER_TAG="v0.9.x-pre"
+DOCKER_TAG="pre"
 
 # Set to true if you want to push images to dockerhub
 PUSH_DOCKERHUB=false
@@ -25,6 +25,20 @@ if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_cpu:$DOCKER_TAG
 fi
 
+echo 'cpu_tf build'
+date
+docker build -t jolibrain/deepdetect_cpu_tf:$DOCKER_TAG \
+  --build-arg DEEPDETECT_BUILD=caffe-tf \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f cpu.Dockerfile \
+  . > docker_build_logs/deepdetect_cpu_tf.log
+
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_cpu_tf:$DOCKER_TAGS
+fi
+
 #
 # GPU
 #
@@ -40,6 +54,35 @@ docker build -t jolibrain/deepdetect_gpu:$DOCKER_TAG \
 if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_gpu:$DOCKER_TAG
 fi
+
+echo 'gpu_tf_cpu build'
+date
+docker build -t jolibrain/deepdetect_gpu_tf_cpu:$DOCKER_TAG \
+  --build-arg DEEPDETECT_BUILD=caffe-cpu-tf \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_tf_cpu.log
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_gpu_tf_cpu:$DOCKER_TAG
+fi
+
+echo 'gpu_faiss build'
+date
+docker build -t jolibrain/deepdetect_gpu_faiss:$DOCKER_TAG \
+  --build-arg DEEPDETECT_BUILD=faiss \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_faiss.log
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_gpu_faiss:$DOCKER_TAG
+fi
+
+# deepdetect_gpu_caffe2
+# deepdetect_gpu_pytorch -  -DUSE_TORCH=ON
 
 ## TODO: build this one on armv7 hardware
 ##
