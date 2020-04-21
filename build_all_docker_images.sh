@@ -55,6 +55,19 @@ if [ "$PUSH_DOCKERHUB" = true ] ; then
   docker push jolibrain/deepdetect_gpu:$DOCKER_TAG
 fi
 
+echo 'gpu_caffe2 build'
+date
+docker build -t jolibrain/deepdetect_gpu_caffe2:$DOCKER_TAG \
+  --build-arg DEEPDETECT_BUILD=caffe2 \
+  --build-arg DEEPDETECT_DEFAULT_MODELS=false \
+  --no-cache \
+  -f gpu.Dockerfile \
+  . > docker_build_logs/deepdetect_gpu_caffe2.log
+
+if [ "$PUSH_DOCKERHUB" = true ] ; then
+  docker push jolibrain/deepdetect_gpu_caffe2:$DOCKER_TAG
+fi
+
 echo 'gpu_tf_cpu build'
 date
 docker build -t jolibrain/deepdetect_gpu_tf_cpu:$DOCKER_TAG \
